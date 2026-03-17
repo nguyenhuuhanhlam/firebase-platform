@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Button } from '../components/Button'
 
-export default function Profile({ user }: { user: string | null }) {
+export default function Profile({ user }) {
   return (
     <section className="p-6 rounded-xl bg-white shadow-sm">
       <h1 className="text-3xl font-bold mb-3">Profile</h1>
