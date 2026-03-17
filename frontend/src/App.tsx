@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Profile from './pages/Profile'
+import NotFound from './pages/NotFound'
 
 const firebaseConfig = {
   apiKey: '<YOUR_API_KEY>',
@@ -15,7 +19,7 @@ const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 
 export default function App() {
-  const [user, setUser] = useState<string | null>(null)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
@@ -25,10 +29,14 @@ export default function App() {
   }, [])
 
   return (
-    <main style={{ fontFamily: 'system-ui, sans-serif', padding: 32 }}>
-      <h1>Firebase Platform Frontend</h1>
-      <p>Shadcn-like component style placeholder.</p>
-      <p>User: {user ?? 'not signed in'}</p>
-    </main>
+    <BrowserRouter>
+      <main style={{ fontFamily: 'system-ui, sans-serif', padding: 32 }}>
+        <Routes>
+          <Route path="/" element={<Home user={user} />} />
+          <Route path="/profile" element={<Profile user={user} />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
   )
 }
